@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<th:block th:replace="fragments/header :: headerFragment('게시판')"></th:block>
+<body>
+
+<!-- header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">게시판</h1>
+        </div>
+    </div>
+</header>
+
+<!-- Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <a href="/">메인화면</a>
+            <a href="/board">목록으로</a>
+            <button th:onclick="|location.href='@{/board/modify/{bno}(bno = ${bno})}'|">수정</button>
+            <form th:action="@{/board/{bno}(bno = ${bno})}" th:method="delete">
+                <input type="submit" value="삭제">
+            </form>
+        </div>
+        <div class="row">
+            <table class="table table-responsive">
+                <tr>
+                    <th>제목</th>
+                    <td>
+                        <span th:text="${board.title}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>내용</th>
+                    <td>
+                        <span th:text="${board.content}"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+    /*<![CDATA[*/
+    function modifyView() {
+        href.replace
+    }
+
+
+    function deleteOne() {
+        $.ajax({
+            type: "DELETE",
+            url: "/board/" + "[[${bno}]]",
+            data: ""
+        })
+        .done(function (json){
+            location.href='/board';
+        })
+        .fail(function(xhr, status, errorThrown) {
+            console.log(xhr)
+            console.log(status)
+            console.log(errorThrown)
+        });
+    }
+    /*]]>*/
+</script>
+<!-- end -->
+
+<!-- footer -->
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</body>
+</html>

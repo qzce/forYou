@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<th:block th:replace="fragments/header :: headerFragment('게시판')"></th:block>
+<body>
+
+<!-- header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">게시판</h1>
+        </div>
+    </div>
+</header>
+
+<!-- Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <a href="/">메인화면</a>
+            <a href="/board">목록으로</a>
+        </div>
+        <div class="row">
+            <form id="save_board" name="save_board" action="/board" method="POST">
+                <table class="table table-responsive">
+                    <tr>
+                        <th>제목</th>
+                        <td>
+                            <input type="text" name="title" placeholder="title"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td>
+                            <textarea name="content"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="작성"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    function boardSaveeeeE() {
+        $.ajax({
+            type: "POST",
+            url: "/v1/api/board",
+            data: $('#save_board').serialize()
+        })
+            .done(function (json){
+                location.href='/board';
+            })
+            .fail(function(xhr, status, errorThrown) {
+                console.log(xhr)
+                console.log(status)
+                console.log(errorThrown)
+            });
+    }
+</script>
+<!-- end -->
+
+<!-- footer -->
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</body>
+</html>
