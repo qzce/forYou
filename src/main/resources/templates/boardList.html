@@ -18,18 +18,24 @@
     <div class="container">
         <div class="row">
             <a href="/">메인화면</a>
-            <a href="/board">목록으로</a>
+            <a href="/board">게시판</a>
             <a href="/board/write">작성</a>
         </div>
 
         <div class="row">
             <table class="table table-responsive">
+                <colgroup>
+                    <col width="10%">
+                    <col width="30%">
+                    <col width="30%">
+                    <col width="30%">
+                </colgroup>
                 <thead class="table-dark">
                 <tr>
                     <th>번호</th>
                     <th>제목</th>
+                    <th>작성자</th>
                     <th>작성일</th>
-                    <th>수정일</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,8 +44,8 @@
                     <td>
                         <a th:text="${board.title}" th:href="@{/board/{bno}(bno = ${board.bno})}"></a>
                     </td>
-                    <td th:text="${board.writeDate}"></td>
-                    <td th:text="${board.modifyDate}"></td>
+                    <td th:text="${board.writeId}"></td>
+                    <td th:text="${#temporals.format(board.writeDate, 'yyyy-MM-dd HH:mm')}"></td>
                     <!--                    <td th:text="${#temporals.format(board.writeDate, 'MM/dd HH:mm')}"></td>-->
                 </tr>
                 </tbody>
@@ -48,22 +54,22 @@
 
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li th:if="${nowPage > pageRange}" class="page-item">
+                <li th:if="${nowPage >= pageRange}" class="page-item">
                     <a class="page-link" th:href="@{/board(page = ${startPage - 1})}" href="#" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
                 <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                    <li th:if="${page == nowPage}" class="page-item active">
+                    <li th:if="${page == nowPage+1}" class="page-item active">
                         <a th:href="@{/board(page = ${page})}" th:text="${page}"></a>
                     </li>
-                    <li th:if="${page != nowPage}" class="page-item">
+                    <li th:if="${page != nowPage+1}" class="page-item">
                         <a th:class="${pageStat.index}" th:href="@{/board(page = ${page})}" th:text="${page}"></a>
                     </li>
                 </th:block>
 
-                <li th:if="${nowPage < lastStartPage}" class="page-item">
+                <li th:if="${nowPageAddSize < totalPage}" class="page-item">
                     <a class="page-link" th:href="@{/board(page = ${endPage + 1})}" href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>

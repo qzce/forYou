@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>메인화면</title>
-</head>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<th:block th:replace="fragments/header :: headerFragment('메인화면')"></th:block>
 <body>
-    <a href="/">메인화면</a>
-    <a href="/board">목록으로</a>
-    <a th:if="${#strings.isEmpty(mname)}" href="/login">로그인</a>
-    <a th:if="${#strings.isEmpty(mname)}" href="/signup">회원가입</a>
-    <a th:if="${not #strings.isEmpty(mname)}"href="/logout">로그아웃</a>
 
-    <span th:if="${not #strings.isEmpty(mname)}" th:text="${mname}"></span>
+<!-- header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">메인화면</h1>
+        </div>
+    </div>
+</header>
 
-    <h1>메인화면</h1>
+<!-- Section-->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <a href="/">메인화면</a>
+            <a href="/board">게시판</a>
+            <a th:if="${#strings.isEmpty(mname)}" href="/login">로그인</a>
+            <a th:if="${#strings.isEmpty(mname)}" href="/signup">회원가입</a>
+            <a th:if="${not #strings.isEmpty(mname)}"href="/logout">로그아웃</a>
+
+            <span th:if="${not #strings.isEmpty(mname)}" th:text="${mname}"></span>
+        </div>
+    </div>
+</section>
 </body>
 </html>

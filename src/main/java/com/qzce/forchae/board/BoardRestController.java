@@ -7,12 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/api/board")
@@ -23,7 +18,7 @@ public class BoardRestController {
 
 
     @GetMapping("")
-    public Page<BoardListDto> boardAll(@PageableDefault(size=5, sort = "bno", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<BoardListDto> boardAll(@PageableDefault(size=10, sort = "bno", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<Board> list = boardService.searchBoardList(pageable);
 

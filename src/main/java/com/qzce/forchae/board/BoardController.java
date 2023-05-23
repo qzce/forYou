@@ -1,10 +1,10 @@
 package com.qzce.forchae.board;
 
-import com.qzce.forchae.board.dto.BoardListDto;
 import com.qzce.forchae.board.dto.BoardModifyDto;
 import com.qzce.forchae.board.dto.BoardWriteDto;
 import com.qzce.forchae.comment.Comment;
 import com.qzce.forchae.comment.CommentService;
+import com.qzce.forchae.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -26,16 +27,16 @@ public class BoardController {
 
     @GetMapping("")
     public String boardList(Model model,
-                            @PageableDefault(page = 0, size = 10, sort = "bno", direction = Sort.Direction.DESC) Pageable pageable) {
+                            @PageableDefault(size = 10, sort = "bno", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<Board> list = boardService.searchBoardList(pageable);
 
-        Page<BoardListDto> boardListDtos = list.map(BoardListDto::new);
-
-        final int pageRange = 10;
+        int pageRange = list.getSize();
 
         int nowPage = list.getPageable().getPageNumber();   // 현재 페이지
-        int fitPage = (nowPage-1)/pageRange;                // 페이지 맞춤
+        int nowPageAddSize = nowPage + pageRange;
+
+        int fitPage = nowPage/pageRange;                // 페이지 맞춤
 
         int startPage = fitPage * pageRange + 1;            // 시작 페이지
         int endPage = fitPage * pageRange + pageRange;      // 끝 페이지
@@ -48,13 +49,15 @@ public class BoardController {
             endPage = totalPage;
         }
 
-        model.addAttribute("boardList", boardListDtos);
+        model.addAttribute("boardList", list);
         model.addAttribute("nowPage", nowPage);
+        model.addAttribute("nowPageAddSize", nowPageAddSize);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("lastStartPage", lastStartPage);
         model.addAttribute("pageRange", pageRange);
+        model.addAttribute("pageable", pageable);
 
         return "boardList";
     }
@@ -74,14 +77,22 @@ public class BoardController {
     }
 
     @GetMapping("/write")
-    public String boardWrite(Model model) {
+    public String boardWrite() {
         return "boardWrite";
     }
 
     @GetMapping("/modify/{bno}")
-    public String boardModify(Model model, @PathVariable("bno") Long bno) {
+    public String boardModify(Model model, @PathVariable("bno") Long bno, Principal principal) {
 
         Board board = boardService.searchBoard(bno).orElseThrow(() -> new NullPointerException("null"));
+
+        boolean sameId = validateId(principal, board);
+
+        if(!sameId) {
+            model.addAttribute("message", "다른사람의 글");
+            model.addAttribute("searchUrl", "/board/"+bno);
+            return "message";
+        }
 
         model.addAttribute("bno", bno);
         model.addAttribute("board", board);
@@ -102,8 +113,32 @@ public class BoardController {
     }
 
     @DeleteMapping("/{bno}")
-    public String doDelete(@PathVariable("bno") Long bno) {
+    public String doDelete(Model model, @PathVariable("bno") Long bno, Principal principal) {
+
+        Board board = boardService.searchBoard(bno).orElseThrow(() -> new NullPointerException("null"));
+
+        boolean sameId = validateId(principal, board);
+
+        if(!sameId) {
+            model.addAttribute("message", "다른사람의 글");
+            model.addAttribute("searchUrl", "/board/"+bno);
+            return "message";
+        }
+
         boardService.deleteBoard(bno);
         return "redirect:/board";
     }
+
+    // 같은 아이디?
+    public boolean validateId(Principal principal, Board board) {
+
+        if(board.getWriteId() != null && principal != null) {
+            String loginId = principal.getName();
+            String writeId = board.getWriteId();
+            return loginId.equals(writeId);
+        }
+        return false;
+    }
+
+
 }

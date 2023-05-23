@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @Controller
@@ -26,7 +25,7 @@ public class MainController {
 
     @GetMapping("/signup")
     public String signup() {
-        return "signup";
+        return "signUp";
     }
 
     @GetMapping("/signUpMessage")
