@@ -20,7 +20,7 @@ public class MemberController {
 
         Optional<Member> memberExist = memberService.searchMember(member.getMname());
 
-        if(!memberExist.isPresent()) {
+        if(memberExist.isPresent()) {
             model.addAttribute("message", "중복된 이름입니다");
             model.addAttribute("searchUrl", "/signup");
             return "message";
