@@ -1,18 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>회원가입</title>
-</head>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<th:block th:replace="fragments/header :: headerFragment('회원가입')"></th:block>
 <body>
 
-    <form id="signUpForm" name="signUpForm" action="/joinProc" method="POST">
-        <input type="text" name="mname" placeholder="아이디"/>
-        <input type="password" name="password" placeholder="비밀번호"/>
-        <input type="submit" value="저장"/>
-    </form>
+<!-- header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">회원가입</h1>
+        </div>
+    </div>
+</header>
 
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <a href="/">메인화면</a>
+            <a href="/board">게시판</a>
+            <a href="/board/write">작성</a>
+        </div>
 
+        <form id="signUpForm" name="signUpForm" action="/joinProc" method="POST">
+            <input type="text" name="mname" placeholder="아이디"/>
+            <input type="password" name="password" placeholder="비밀번호"/>
+            <input type="submit" value="저장"/>
+        </form>
+
+    </div>
+</section>
+
+<!-- footer -->
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </body>
 </html>

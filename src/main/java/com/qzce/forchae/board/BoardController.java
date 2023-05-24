@@ -4,7 +4,6 @@ import com.qzce.forchae.board.dto.BoardModifyDto;
 import com.qzce.forchae.board.dto.BoardWriteDto;
 import com.qzce.forchae.comment.Comment;
 import com.qzce.forchae.comment.CommentService;
-import com.qzce.forchae.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

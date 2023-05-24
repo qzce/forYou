@@ -18,6 +18,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                     .antMatchers("/board/modify/**").authenticated()
+                    .antMatchers("/board/write/**").authenticated()
                     .anyRequest().permitAll()
                 .and()
                     .formLogin()
