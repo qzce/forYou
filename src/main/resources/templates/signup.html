@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<th:block th:replace="fragments/header :: headerFragment('회원가입')"></th:block>
+<body>
+
+<!-- header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">회원가입</h1>
+        </div>
+    </div>
+</header>
+<!-- footer -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <a href="/">메인화면</a>
+            <a href="/board">게시판</a>
+            <a href="/board/write">작성</a>
+        </div>
+        <div class="row">
+            <form id="signUpForm" name="signUpForm" action="/joinProc" method="POST">
+            <table class="table table-responsive">
+                <colgroup>
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="70%">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>
+                        아이디
+                    </th>
+                    <td>
+                        <input type="text" name="mname" placeholder="아이디" th:value="${dto.getMname()}"/>
+                    </td>
+                    <td>
+                        <span th:if="${valid_mname != null}" id="valid_id" th:text="${valid_mname}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        비밀번호
+                    </th>
+                    <td>
+                        <input type="password" name="password" placeholder="비밀번호" th:value="${dto.getPassword()}"/>
+                    </td>
+                    <td>
+                        <span th:if="${valid_password != null}" id="valid_pw" th:text="${valid_password}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        <input type="submit" value="회원가입"/>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+
+            </form>
+        </div>
+    </div>
+</section>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+
+
+</body>
+</html>

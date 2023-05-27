@@ -52,7 +52,7 @@
             </table>
         </div>
 
-        <nav aria-label="Page navigation example">
+        <nav class="nav-center" aria-label="Page navigation example">
             <ul class="pagination">
                 <li th:if="${nowPage >= pageRange}" class="page-item">
                     <a class="page-link" th:href="@{/board(page = ${startPage - 1})}" href="#" aria-label="Previous">

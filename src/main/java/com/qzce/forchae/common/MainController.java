@@ -1,5 +1,6 @@
 package com.qzce.forchae.common;
 
+import com.qzce.forchae.member.dto.MemberRequestDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,13 @@ public class MainController {
     }
 
     @GetMapping("/signup")
-    public String signup() {
-        return "signUp";
+    public String signup(Model model) {
+
+        model.addAttribute("dto", new MemberRequestDto());
+        model.addAttribute("valid_mname", "");
+        model.addAttribute("valid_password", "");
+
+        return "signup";
     }
 
     @GetMapping("/signUpMessage")

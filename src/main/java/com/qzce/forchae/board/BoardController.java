@@ -62,9 +62,13 @@ public class BoardController {
     }
 
     @GetMapping("/{bno}")
-    public String boardView(Model model, @PathVariable("bno") Long bno) {
+    public String boardView(Model model, @PathVariable("bno") Long bno, Principal principal) {
 
         Board board = boardService.searchBoard(bno).orElseThrow(() -> new NullPointerException("null"));
+
+        if(validateId(principal, board)) {
+            model.addAttribute("writeIdChk", principal.getName());
+        }
 
         List<Comment> commentList = commentService.searchComment(bno);
 

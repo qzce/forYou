@@ -19,8 +19,8 @@
         <div class="row">
             <a href="/">메인화면</a>
             <a href="/board">게시판</a>
-            <button th:onclick="|location.href='@{/board/modify/{bno}(bno = ${bno})}'|">수정</button>
-            <form th:action="@{/board/{bno}(bno = ${bno})}" th:method="delete">
+            <button th:if="${not #strings.isEmpty(writeIdChk)}" th:onclick="|location.href='@{/board/modify/{bno}(bno = ${bno})}'|">수정</button>
+            <form class="rm-block" th:if="${not #strings.isEmpty(writeIdChk)}" th:action="@{/board/{bno}(bno = ${bno})}" th:method="delete">
                 <input type="submit" value="삭제">
             </form>
         </div>
